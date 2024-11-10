@@ -32,7 +32,9 @@ git clone https://github.com/cbsdan/intrusion-detection-system.git
 
 
 ### Backend Setup
-- Open the backend/requirements.txt file, and make sure the following packages are included
+- Open the `backend/requirements.txt` file, and make sure the following packages are included:
+
+```text
 google-auth==2.11.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
@@ -48,14 +50,15 @@ seaborn==0.12.0
 sklearn==0.0
 spacy==3.4.1
 tensorflow==2.10.0
-
+```
 
 ### .env Variables
-- Create a .env file in the backend directory and insert the following environment variables:
+- Create a `.env` file in the backend directory and insert the following environment variables:
+```text
 DB_LINK=[Your mongoDb DB]
 JWT_SECRET=[Your JWT Secret]
 JWT_EXPIRES_TIME=7d
-
+```
 
 ### Python Interpreter Setup:
 Ensure you are using Python 3.10.0 to avoid compatibility issues.
