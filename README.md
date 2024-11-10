@@ -32,7 +32,7 @@ git clone https://github.com/cbsdan/intrusion-detection-system.git
 
 
 ### Backend Setup
-- Open the backend/requirements.txt file, and make sure the following packages are included:
+- Open the backend/requirements.txt file, and make sure the following packages are included
 google-auth==2.11.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
