@@ -61,9 +61,9 @@ JWT_EXPIRES_TIME=7d
 ```
 
 ### Python Interpreter Setup:
-Ensure you are using Python 3.10.0 to avoid compatibility issues.
-Download Python 3.10.0: Python 3.10.0 Download
-Select Python 3.10.0 in Your IDE (e.g., Visual Studio Code)
+- Ensure you are using Python 3.10.0 to avoid compatibility issues.
+- Download and install Python 3.10.0
+- Select Python 3.10.0 in Your IDE (e.g., Visual Studio Code)
 
 
 ### Create Virtual Environment for Python
