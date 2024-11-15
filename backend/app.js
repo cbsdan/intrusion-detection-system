@@ -12,6 +12,8 @@ const session = require('express-session');
 const app = express();
 
 const auth = require('./routes/auth');
+const networktraffic = require('./routes/networktraffic');
+const logRoutes = require('./routes/logRoutes');
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -27,6 +29,7 @@ app.use(session({
 app.use(cookieParser());
 
 const cors = require("cors");
+const { newNetworkTraffic } = require('./controllers/networkTrafficController');
 
 app.use(express.json({limit:'50mb'}))
 app.use(cors())
@@ -157,6 +160,7 @@ p_lstm_mul_acc = "0.9590940929255195"
 
 app.post("/parameters", async function (req, res) {
   const {
+    user,
     protocol_type,
     service,
     flag,
@@ -317,6 +321,8 @@ l = "completed!!"
 
 //Routes
 app.use('/', auth);
+app.use('/', networktraffic);
+app.use('/', logRoutes);
 
 let port = process.env.PORT;
 if (port == null || port == "") {

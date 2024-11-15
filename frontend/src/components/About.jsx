@@ -295,7 +295,7 @@ function About() {
 
               <div className="card-body">
                 <h4 className="card-title">Jhun Mark Obreros</h4>
-                <h6 className="card-title">Front End</h6>
+                <h6 className="card-title">Back End</h6>
                 <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a

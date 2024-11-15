@@ -1,0 +1,53 @@
+/* Data Grid Table Container Styles */
+.table-container {
+  overflow: auto;
+    width: 100%;
+    background-color: #e0f7fa; /* Light teal background */
+    border: 1px solid #00acc1; /* Teal border */
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  }
+  
+  /* Table Titles */
+  .table-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #004d40; /* Darker teal color for text */
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  /* DataGrid Styles */
+  .MuiDataGrid-root {
+    border: none; /* Remove default DataGrid border */
+  }
+  
+  /* Column Headers */
+  .MuiDataGrid-columnHeaders {
+    background-color: #00796b; /* Dark teal for header background */
+    color: #2c2c2c; /* White text for contrast */
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  /* DataGrid Cells */
+  .MuiDataGrid-cell {
+    color: #004d40; /* Darker teal for cell text */
+  }
+  
+  /* Row Hover Effect */
+  .MuiDataGrid-row:hover {
+    background-color: #b2dfdb; /* Light teal hover effect */
+  }
+  
+  /* Pagination Footer */
+  .MuiDataGrid-footerContainer {
+    border-top: 1px solid #00acc1; /* Teal border at the top */
+  }
+  
+  /* Pagination Buttons */
+  .MuiButtonBase-root {
+    color: #00796b; /* Teal color for pagination controls */
+  }
+  

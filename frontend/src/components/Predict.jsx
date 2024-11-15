@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Predict = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  
+
   let navigate = useNavigate();
 
   const handleFileUpload = async (event) => {
@@ -21,7 +21,7 @@ const Predict = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          responseType: "blob", 
+          responseType: "blob",
         }
       );
 
@@ -46,14 +46,14 @@ const Predict = () => {
     setStatusMessage("Processing...");
     try {
       const response = await axios.get(`${import.meta.env.VITE_API}/secrets`);
-  
+
       const dataToPass = {
         knn: response.data.knn,
         rf: response.data.rf,
         cnn: response.data.cnn,
         lstm: response.data.lstm,
       };
-  
+
       navigate("/predict/param-secrets", { state: { data: dataToPass } });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -78,7 +78,9 @@ const Predict = () => {
         <div id="myDiv" className="animate-bottom">
           <h1 className="my-0">Choose options to Predict</h1>
           {statusMessage ? (
-            <h5 className="mt-3"><span className="text-warning">Status</span>: {statusMessage}</h5>
+            <h5 className="mt-3">
+              <span className="text-warning">Status</span>: {statusMessage}
+            </h5>
           ) : (
             <></>
           )}
@@ -93,18 +95,18 @@ const Predict = () => {
                 }}
               >
                 <div className="card-body">
-                  <h5 className="card-title">RANDOM ROW PREDICT</h5>
+                  <h5 className="card-title">Enter Network Parameters</h5>
                   <p className="card-text">
-                    It will take a single row from validation data to predict
-                    the type of attack.
+                    It will take the network parameters from the user and
+                    predict the type of attack.
                   </p>
-                  <button
-                    onClick={handleRandomRowPredict} 
+                  <Link
+                    to="/predict/parameter"
                     className="btn btn-dark"
                     style={{ backgroundColor: "#24a0ed" }}
                   >
                     Predict
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -176,20 +178,21 @@ const Predict = () => {
                 }}
               >
                 <div className="card-body">
-                  <h5 className="card-title">Enter Network Parameters</h5>
+                  <h5 className="card-title">RANDOM ROW PREDICT</h5>
                   <p className="card-text">
-                    It will take the network parameters from the user and
-                    predict the type of attack.
+                    It will take a single row from validation data to predict
+                    the type of attack.
                   </p>
-                  <Link
-                    to="/predict/parameter"
+                  <button
+                    onClick={handleRandomRowPredict}
                     className="btn btn-dark"
                     style={{ backgroundColor: "#24a0ed" }}
                   >
                     Predict
-                  </Link>
+                  </button>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>

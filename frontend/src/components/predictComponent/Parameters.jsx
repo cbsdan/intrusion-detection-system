@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoadHead from "../layout/LoadHead";
 import LoadFoot from "../layout/LoadFoot";
+import { getToken, getUser } from "../../utils/helper";
 
 const Parameters = () => {
   const [networkTraffic, setNetworkTraffic] = useState("");
@@ -11,6 +12,7 @@ const Parameters = () => {
 
   let navigate = useNavigate();
   const [formData, setFormData] = useState({
+    user: getUser()._id,
     protocol_type: "",
     service: "",
     flag: "",
@@ -77,20 +79,69 @@ const Parameters = () => {
     };
   };
 
+  function extractData(data, networkTrafficData) {
+    const extractBinCls = (str) => str.slice(str.indexOf(":") + 1).toLowerCase().trim();
+    const extractMulCls = (str) => str.slice(str.indexOf(":") + 1).toLowerCase().trim();
+
+    const binaryClassResult = [];
+    const multiClassResult = [];
+
+    // Extract binary and multi-class results
+    Object.keys(data).forEach((model) => {
+        const binCls = extractBinCls(data[model].bin_cls);
+        const mulCls = extractMulCls(data[model].mul_cls);
+
+        binaryClassResult.push({
+            modelUsed: model,
+            result: binCls
+        });
+
+        multiClassResult.push({
+            modelUsed: model,
+            result: mulCls
+        });
+    });
+
+    return {
+        binaryClassResult,
+        multiClassResult,
+        networkTraffic: networkTrafficData._id 
+    };
+}
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const config = {
         headers: {
+          Authorization: `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       };
 
       const url = `${import.meta.env.VITE_API}/parameters`;
-
+      const newNetworkTrafficUrl = `${
+        import.meta.env.VITE_API
+      }/network-traffic`;
+      const logsUrl = `${import.meta.env.VITE_API}/log`;
+      
       const { data: response } = await axios.post(url, formData, config);
       console.log(response);
+
+      const { data: networkTrafficResponse } = await axios.post(
+        newNetworkTrafficUrl,
+        formData,
+        config
+      );
+      console.log(networkTrafficResponse);
+
+      const result = extractData(response, networkTrafficResponse)
+      console.log(result)
+      const { data: logsResponse } = await axios.post(logsUrl, result, config);
+      console.log(logsResponse);
+
       setLoading(false);
       navigate("/predict/param-secrets", { state: { data: response } });
     } catch (error) {

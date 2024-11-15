@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUser, logout } from "../../utils/helper";
+import { getUser, isAdmin, logout } from "../../utils/helper";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -46,60 +46,82 @@ const Header = () => {
                     Home
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <Link className="nav-link" to="/submit">
-                    Predict
-                  </Link>
-                </li> */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/features">
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
                     Features
-                  </Link>
+                  </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <li>
+                      <Link className="dropdown-item" to="/features">
+                        Features
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/attacks">
+                        Attacks
+                      </Link>
+                    </li>
+                    {isAdmin() && (
+                      <li>
+                        <Link className="dropdown-item" to="/stats">
+                          Stats
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/attacks">
-                    Attacks
-                  </Link>
-                </li>
+
+                {user && (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      style={{ textDecoration: "none" }}
+                      to="/predict"
+                    >
+                      Predict
+                    </Link>
+                  </li>
+                )}
+
+                {user && isAdmin() && (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      style={{ textDecoration: "none" }}
+                      to="/admin"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
+
                 <li className="nav-item">
                   <Link className="nav-link" to="/about">
                     About
                   </Link>
                 </li>
-
-                {user ? (
-                  <>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link"
-                        style={{ textDecoration: "none" }}
-                        to="/predict"
-                      >
-                        Predict
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link"
-                        style={{ textDecoration: "none" }}
-                        to="/stats"
-                      >
-                        Stats
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link text-danger"
-                        style={{ textDecoration: "none" }}
-                        to="/"
-                        onClick={logoutHandler}
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <></>
+                
+                {user && (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link text-danger"
+                      style={{ textDecoration: "none" }}
+                      to="/"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </Link>
+                  </li>
                 )}
               </ul>
             </div>

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { isAdmin, isAuthenticated } from "./utils/helper";
 import "./App.css";
 import Header from "./components/layout/Header";
@@ -22,8 +22,31 @@ import CnnBin from "./components/tables/CnnBin";
 import CnnMulti from "./components/tables/CnnMulti";
 import LstmBin from "./components/tables/LstmBin";
 import LstmMulti from "./components/tables/LstmMulti";
+import LogsTable from "./components/admin/LogsTable";
+import ChartsPage from "./components/admin/ChartsPage";
+import UserPage from "./components/admin/UserPage";
 
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  const AdminRoute = () => {
+    if (!isAdmin()) {
+      return <Navigate to="/" />
+    }
+    
+    return (
+      <>
+        <Routes>
+          <Route path="*" element={<NotFound404 />} />
+          <Route path="/" element={<ChartsPage />} />
+          <Route path="/logs" element={<LogsTable />}/>
+          <Route path="/dashboard" element={<ChartsPage />}/>
+          <Route path="/users" element={<UserPage />}/>
+        </Routes>
+      </>
+    )
+  }
   const UserRoute = () => {
     if (!isAuthenticated()) {
       return <Navigate to="/" />;
@@ -31,6 +54,7 @@ function App() {
 
     return (
       <Routes>
+        <Route path="*" element={<NotFound404 />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/predict" element={<Predict />} />
         <Route path="/predict/parameter" element={<Parameters />} />
@@ -49,7 +73,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      {!isAdminRoute && (<Header />)}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -58,10 +82,12 @@ function App() {
         <Route path="/features" element={<Features />} />
         <Route path="/attacks" element={<Attacks />} />
 
+        <Route path="/admin/*" element={<AdminRoute />} />
         <Route path="/*" element={<UserRoute />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
-      <Footer />
+      {!isAdminRoute && (<Footer />)}
+      
     </>
   );
 }
