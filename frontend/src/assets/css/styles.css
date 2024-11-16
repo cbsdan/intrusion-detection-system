@@ -1,4 +1,8 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
+:root {
+  --primary-color: #00ADB5;
+  --card-color: #71C9CE;
+}
 body{
   margin: 0;
   padding: 0;
@@ -6,8 +10,8 @@ body{
   background-color: #00ADB5;
   background-size: cover;
   font-family: "Montserrat";
-
-}
+  overflow-x: hidden
+} 
 :root {
   --primary-color: #03346E,
   
@@ -23,7 +27,7 @@ body{
 }  
 
 .navbar {
-  padding: 0 0 4.5rem;
+  padding: 0 0 2.5rem;
 }
 
 .navbar-brand {
@@ -33,7 +37,7 @@ body{
 }
 
 .nav-item {
-  padding: 0 18px;
+  padding: 0 10px;
 }
 
 .nav-link {
@@ -43,6 +47,8 @@ body{
 
 .login-box{
   margin: auto;
+  width: 50vw;
+  max-width: 500px;
 }
 
 
@@ -53,10 +59,6 @@ body{
   margin-bottom: 50px;
   padding: 13px 0;
 }
-
-
-
-
 
 
 .home-page{
@@ -151,10 +153,6 @@ body{
   padding-left: 6rem;
 }
 
-.card-about 
-{
- border-radius: 20%;
-}
 
 
 b{
@@ -166,6 +164,9 @@ b{
 .minHeight100vh {
   min-height: 100vh;
 }
+.minHeight75vh {
+  min-height: 75vh;
+}
 .minHeight50vh {
   min-height: 50vh;
 }
@@ -175,3 +176,25 @@ b{
 .d-inline-flex {
   display: inline-flex;
 }
+.minFullHeightMinusNavHeight {
+  min-height: calc(100vh - 148px);
+}
+.card-color {
+  background-color: var(--card-color);
+}
+
+/* About Section */
+.about-section {
+  background-color: var(--card-color);
+  padding: 10px;
+  border-radius: 10px;
+}
+.card-about 
+{
+ background-color: var(--card-color);
+ width: 22rem;
+ margin: 0px 30px 30px 30px;
+ border-radius: 8px;
+}
+
+/* Network Traffic Parameter Page */

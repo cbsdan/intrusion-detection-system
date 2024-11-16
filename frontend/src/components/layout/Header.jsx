@@ -41,11 +41,34 @@ const Header = () => {
 
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="navbar-nav ml-auto">
+                {user && isAdmin() && (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link text-warning"
+                      style={{ textDecoration: "none" }}
+                      to="/admin"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
                 <li className="nav-item">
                   <Link className="nav-link" to="/">
                     Home
                   </Link>
                 </li>
+                {user && (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      style={{ textDecoration: "none" }}
+                      to="/predict"
+                    >
+                      Predict
+                    </Link>
+                  </li>
+                )}
+                
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
@@ -81,36 +104,12 @@ const Header = () => {
                   </ul>
                 </li>
 
-                {user && (
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link"
-                      style={{ textDecoration: "none" }}
-                      to="/predict"
-                    >
-                      Predict
-                    </Link>
-                  </li>
-                )}
-
-                {user && isAdmin() && (
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link"
-                      style={{ textDecoration: "none" }}
-                      to="/admin"
-                    >
-                      Admin
-                    </Link>
-                  </li>
-                )}
-
                 <li className="nav-item">
                   <Link className="nav-link" to="/about">
                     About
                   </Link>
                 </li>
-                
+
                 {user && (
                   <li className="nav-item">
                     <Link

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loader from "./layout/Loader";
 
 const Predict = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let navigate = useNavigate();
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
+    setLoading(true);
     setStatusMessage("File is uploading...");
     const formData = new FormData(event.target);
 
@@ -36,14 +39,18 @@ const Predict = () => {
 
       setStatusMessage("File is uploaded and processed successfully!");
       setIsFileUploaded(true);
+      setLoading(false);
     } catch (error) {
       console.error(error);
       setStatusMessage(`Error: ${error.response?.data || error.message}`);
+      setLoading(false);
     }
   };
 
   const handleRandomRowPredict = async () => {
-    setStatusMessage("Processing...");
+    setLoading(true);
+    setStatusMessage("Machine Learning is analyzing the random network traffic parameters...");
+
     try {
       const response = await axios.get(`${import.meta.env.VITE_API}/secrets`);
 
@@ -55,9 +62,11 @@ const Predict = () => {
       };
 
       navigate("/predict/param-secrets", { state: { data: dataToPass } });
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
       setStatusMessage("Error fetching prediction data.");
+      setLoading(false);
     }
   };
 
@@ -73,130 +82,134 @@ const Predict = () => {
 
   return (
     <>
-      <div style={{ margin: 0 }}>
-        <div id="loader" />
-        <div id="myDiv" className="animate-bottom">
-          <h1 className="my-0">Choose options to Predict</h1>
-          {statusMessage ? (
-            <h5 className="mt-3">
-              <span className="text-warning">Status</span>: {statusMessage}
-            </h5>
-          ) : (
-            <></>
-          )}
-          <div className="container-fluid d-flex align-items-center justify-content-center">
-            <div className="row">
-              <div
-                className="card text-center"
-                style={{
-                  width: "23rem",
-                  margin: "30px",
-                  backgroundColor: "#71C9CE",
-                }}
-              >
-                <div className="card-body">
-                  <h5 className="card-title">Enter Network Parameters</h5>
-                  <p className="card-text">
-                    It will take the network parameters from the user and
-                    predict the type of attack.
-                  </p>
-                  <Link
-                    to="/predict/parameter"
-                    className="btn btn-dark"
-                    style={{ backgroundColor: "#24a0ed" }}
-                  >
-                    Predict
-                  </Link>
-                </div>
-              </div>
-
-              <div
-                className="card text-center"
-                style={{
-                  width: "23rem",
-                  margin: "30px",
-                  backgroundColor: "#71C9CE",
-                }}
-              >
-                <div className="card-body">
-                  <h5 className="card-title">OPEN CSV</h5>
-                  <p className="card-text">
-                    It will take a CSV file of rows ranging from ( 1 ..500.. n
-                    rows) and update the file with type of attack for each row.
-                  </p>
-                  <form
-                    id="uploadForm"
-                    onSubmit={handleFileUpload}
-                    encType="multipart/form-data"
-                  >
-                    <div className="textbox">
-                      <select name="selected_model" required>
-                        <option value="" disabled selected>
-                          Select Algorithm
-                        </option>
-                        <option value="knn">KNN - 97%</option>
-                        <option value="rf">RANDOM FOREST - 97%</option>
-                        <option value="cnn">CNN - 95%</option>
-                        <option value="lstm">LSTM - 95%</option>
-                      </select>
-                    </div>
-                    <div>
-                      <input
-                        className="btn btn-dark"
-                        style={{ backgroundColor: "#24a0ed" }}
-                        type="file"
-                        id="f1"
-                        name="myfile"
-                        accept=".csv,.txt"
-                        onChange={handleFileSelect}
-                        required
-                      />
-                    </div>
-                    <br />
-                    <input
-                      id="predictButton"
+      {loading ? (
+        <Loader message={statusMessage} />
+      ) : (
+        <div style={{ margin: 0 }}>
+          <div id="loader" />
+          <div id="myDiv" className="animate-bottom">
+            <h1 className="my-0">Choose options to Predict</h1>
+            {statusMessage ? (
+              <h5 className="mt-3">
+                <span className="text-warning">Status</span>: {statusMessage}
+              </h5>
+            ) : (
+              <></>
+            )}
+            <div className="container-fluid d-flex align-items-center justify-content-center">
+              <div className="row d-flex justify-content-center">
+                <div
+                  className="card text-center"
+                  style={{
+                    width: "23rem",
+                    margin: "30px",
+                    backgroundColor: "#71C9CE",
+                  }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">Enter Network Parameters</h5>
+                    <p className="card-text">
+                      It will take the network parameters from the user and
+                      predict the type of attack.
+                    </p>
+                    <Link
+                      to="/predict/parameter"
                       className="btn btn-dark"
                       style={{ backgroundColor: "#24a0ed" }}
-                      type="submit"
-                      value="Predict"
-                      name="submit"
-                      onClick={handlePredictionSubmit}
-                      disabled
-                    />
-                    <br />
-                    <br />
-                  </form>
+                    >
+                      Predict
+                    </Link>
+                  </div>
                 </div>
-              </div>
 
-              <div
-                className="card text-center"
-                style={{
-                  width: "23rem",
-                  margin: "30px",
-                  backgroundColor: "#71C9CE",
-                }}
-              >
-                <div className="card-body">
-                  <h5 className="card-title">RANDOM ROW PREDICT</h5>
-                  <p className="card-text">
-                    It will take a single row from validation data to predict
-                    the type of attack.
-                  </p>
-                  <button
-                    onClick={handleRandomRowPredict}
-                    className="btn btn-dark"
-                    style={{ backgroundColor: "#24a0ed" }}
-                  >
-                    Predict
-                  </button>
+                <div
+                  className="card text-center"
+                  style={{
+                    width: "23rem",
+                    margin: "30px",
+                    backgroundColor: "#71C9CE",
+                  }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">OPEN CSV</h5>
+                    <p className="card-text">
+                      It will take a CSV file of rows ranging from ( 1 ..500.. n
+                      rows) and update the file with type of attack for each
+                      row.
+                    </p>
+                    <form
+                      id="uploadForm"
+                      onSubmit={handleFileUpload}
+                      encType="multipart/form-data"
+                    >
+                      <div className="textbox">
+                        <select name="selected_model" required>
+                          <option value="" disabled selected>
+                            Select Algorithm
+                          </option>
+                          <option value="knn">KNN - 97%</option>
+                          <option value="rf">RANDOM FOREST - 97%</option>
+                          <option value="cnn">CNN - 95%</option>
+                          <option value="lstm">LSTM - 95%</option>
+                        </select>
+                      </div>
+                      <div>
+                        <input
+                          className="btn btn-dark"
+                          style={{ backgroundColor: "#24a0ed" }}
+                          type="file"
+                          id="f1"
+                          name="myfile"
+                          accept=".csv,.txt"
+                          onChange={handleFileSelect}
+                          required
+                        />
+                      </div>
+                      <br />
+                      <input
+                        id="predictButton"
+                        className="btn btn-dark"
+                        style={{ backgroundColor: "#24a0ed" }}
+                        type="submit"
+                        value="Predict"
+                        name="submit"
+                        onClick={handlePredictionSubmit}
+                        disabled
+                      />
+                      <br />
+                      <br />
+                    </form>
+                  </div>
+                </div>
+
+                <div
+                  className="card text-center"
+                  style={{
+                    width: "23rem",
+                    margin: "30px",
+                    backgroundColor: "#71C9CE",
+                  }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">RANDOM ROW PREDICT</h5>
+                    <p className="card-text">
+                      It will take a single row from validation data to predict
+                      the type of attack.
+                    </p>
+                    <button
+                      onClick={handleRandomRowPredict}
+                      className="btn btn-dark"
+                      style={{ backgroundColor: "#24a0ed" }}
+                    >
+                      Predict
+                    </button>
+                  </div>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

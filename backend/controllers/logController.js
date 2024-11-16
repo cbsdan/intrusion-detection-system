@@ -123,68 +123,125 @@ exports.getAllLogs = async (req, res) => {
   }
 };
 
-// Dashboard methods (placeholders for now)
 exports.getMultiClassTypeCounts = async (req, res) => {
   try {
-    // Aggregate the logs based on multi-class result
+    // Aggregate the logs based on multi-class result and model used
     const counts = await Log.aggregate([
       { $unwind: "$multiClassResult" }, // Unwind the multiClassResult array
       {
         $group: {
-          _id: "$multiClassResult.result", // Group by the result (dos, normal, probe, etc.)
-          count: { $sum: 1 }, // Count the occurrences
-        },
+          _id: {
+            model: "$multiClassResult.modelUsed", // Group by the model used
+            result: "$multiClassResult.result", // Group by the result (dos, normal, probe, etc.)
+          },
+          count: { $sum: 1 } // Count the occurrences
+        }
       },
       {
         $project: {
           _id: 0, // Don't include the _id field in the result
-          result: "$_id", // Rename _id to result
-          count: 1, // Include the count field
-        },
-      },
+          model: "$_id.model", // Rename _id.model to model
+          result: "$_id.result", // Rename _id.result to result
+          count: 1 // Include the count field
+        }
+      }
     ]);
+
+    // Organize counts by model and result
+    const modelCounts = counts.reduce((acc, { model, result, count }) => {
+      if (!acc[model]) {
+        acc[model] = { normal: 0, attack: { dos: 0, probe: 0, r2l: 0, u2r: 0 } };
+      }
+
+      if (result === "normal") {
+        acc[model].normal = count;
+      } else if (result !== "normal") {
+        // Categorize attack types
+        if (result === "dos") {
+          acc[model].attack.dos = count;
+        } else if (result === "probe") {
+          acc[model].attack.probe = count;
+        } else if (result === "r2l") {
+          acc[model].attack.r2l = count;
+        } else if (result === "u2r") {
+          acc[model].attack.u2r = count;
+        }
+      }
+
+      return acc;
+    }, {});
 
     res.status(200).json({
       success: true,
-      counts,
+      counts: modelCounts
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message,
+      message: error.message
     });
   }
 };
 
+
 exports.getBinaryClassTypeCounts = async (req, res) => {
   try {
-    // Aggregate the logs based on binary class result
     const counts = await Log.aggregate([
-      { $unwind: "$binaryClassResult" }, // Unwind the binaryClassResult array
+      { $unwind: "$binaryClassResult" }, 
       {
         $group: {
-          _id: "$binaryClassResult.result", // Group by the result (normal or attack)
-          count: { $sum: 1 }, // Count the occurrences
-        },
+          _id: {
+            model: "$binaryClassResult.modelUsed", 
+            result: "$binaryClassResult.result" 
+          },
+          count: { $sum: 1 } 
+        }
       },
       {
         $project: {
-          _id: 0, // Don't include the _id field in the result
-          result: "$_id", // Rename _id to result
-          count: 1, // Include the count field
-        },
-      },
+          _id: 0, 
+          model: "$_id.model", 
+          result: "$_id.result", 
+          count: 1 
+        }
+      }
     ]);
+
+    // Organize counts by model
+    const modelCounts = counts.reduce((acc, { model, result, count }) => {
+      if (!acc[model]) {
+        acc[model] = { attack: 0, normal: 0 };
+      }
+      acc[model][result] = count;
+      return acc;
+    }, {});
 
     res.status(200).json({
       success: true,
-      counts,
+      counts: modelCounts
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message,
+      message: error.message
     });
+  }
+};
+
+
+exports.countAllLogs = async (req, res) => {
+  try {
+      const logCount = await Log.countDocuments();
+      return res.status(200).json({
+          success: true,
+          count: logCount
+      });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+          success: false,
+          message: 'Internal Server Error'
+      });
   }
 };
 

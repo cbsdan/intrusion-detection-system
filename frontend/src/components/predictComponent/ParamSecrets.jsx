@@ -24,7 +24,7 @@ const ParamSecrets = () => {
     <div className="container-fluid">
       <h1 className="my-4">Analysis Result</h1>
       <div
-        className="row d-flex align-items-center justify-content-center"
+        className="row d-flex justify-content-center"
         style={{ color: "#fff" }}
       >
         {/* KNN Card */}
@@ -186,7 +186,7 @@ const ParamSecrets = () => {
 
       <div className="login-box d-flex align-items-center justify-content-center flex-column my-4">
         <Link
-          className="btn btn-success w-25"
+          className="btn btn-success w-50"
           style={{ textAlign: "center" }}
           to="/predict"
           role="button"
@@ -194,7 +194,7 @@ const ParamSecrets = () => {
           Predict Again!
         </Link>
         <Link
-          className="btn btn-primary w-25"
+          className="btn btn-primary w-50"
           style={{ textAlign: "center", backgroundColor: "#dd4b39" }}
           to="/"
           role="button"

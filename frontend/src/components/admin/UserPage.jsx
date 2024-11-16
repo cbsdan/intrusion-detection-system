@@ -4,12 +4,13 @@ import { toast } from "react-toastify";
 import { getToken } from "../../utils/helper";
 import "react-toastify/dist/ReactToastify.css";
 import SideBar from "./SideBar";
+import Loader from "../layout/Loader";
 
 const UserPage = () => {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const handleSidebarToggle = () => {
@@ -28,14 +29,18 @@ const UserPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const headers = {
           Authorization: `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         };
-        const response = await fetch(`${import.meta.env.VITE_API}/admin/all-users`, {
-          headers: headers,
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API}/admin/all-users`,
+          {
+            headers: headers,
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -97,49 +102,54 @@ const UserPage = () => {
       );
     });
 
-    setFilteredRows(filtered); 
+    setFilteredRows(filtered);
   };
 
   return (
     <>
       <SideBar isExpanded={isSidebarExpanded} onToggle={handleSidebarToggle} />
-      <div
-        className="table-container d-inline-flex flex-column"
-        style={{
-          maxHeight: "100vh",
-          width: "90%",
-          overflow: "auto !important",
-          marginLeft: isSidebarExpanded ? "260px" : "100px",
-          margin: "30px 30px 30px 100px",
-          transition: "margin-left 0.3s ease",
-          width: isSidebarExpanded ? "calc(100% - 320px)" : "calc(100% - 130px)",
-        }}
-      >
-        <h3 className="table-title">Users</h3>
-        
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={handleSearch}
+      {loading ? (
+        <Loader message="Loading" />
+      ) : (
+        <div
+          className="table-container d-inline-flex flex-column"
           style={{
-            marginBottom: "20px",
-            padding: "8px",
-            width: "300px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
+            maxHeight: "100vh",
+            overflow: "auto !important",
+            marginLeft: isSidebarExpanded ? "260px" : "100px",
+            margin: "30px 30px 30px 100px",
+            transition: "margin-left 0.3s ease",
+            width: isSidebarExpanded
+              ? "calc(100% - 320px)"
+              : "calc(100% - 130px)",
           }}
-        />
-        
-        <DataGrid
-          rows={filteredRows} 
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          loading={loading}
-          style={{ overflow: "auto !important" }}
-        />
-      </div>
+        >
+          <h3 className="table-title">Users</h3>
+
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={handleSearch}
+            style={{
+              marginBottom: "20px",
+              padding: "8px",
+              width: "300px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            }}
+          />
+
+          <DataGrid
+            rows={filteredRows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            loading={loading}
+            style={{ overflow: "auto !important" }}
+          />
+        </div>
+      )}
     </>
   );
 };

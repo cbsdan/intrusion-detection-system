@@ -120,3 +120,7 @@ a.sidebar-link:hover {
 .margin-left-260px {
     margin-left: 260px;
 }
+
+.dev-img {
+    border-radius: 10%;
+}

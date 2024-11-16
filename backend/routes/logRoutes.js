@@ -7,7 +7,8 @@ const {
     getLogByParam,
     getAllLogs,
     getMultiClassTypeCounts,
-    getBinaryClassTypeCounts
+    getBinaryClassTypeCounts,
+    countAllLogs
 } = require('../controllers/logController');
 
 
@@ -15,6 +16,7 @@ const {
 router.post('/log', isAuthenticatedUser, newLog); 
 router.get('/log', isAdmin, getLogByParam); 
 router.get('/logs-all', isAdmin, getAllLogs); 
+router.get('/logs-count', isAdmin, countAllLogs); 
 
 // Dashboard routes
 router.get('/multi-class-type-counts', isAdmin, getMultiClassTypeCounts);

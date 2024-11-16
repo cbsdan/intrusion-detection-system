@@ -80,7 +80,7 @@ VITE_API=http://localhost:3000
 6. Choose Venv.
 7. Select Python 3.10.0 as the interpreter.
 8. Install the packages by selecting the requirements.txt.
-9. Wait for the virtual environment to be created. This may take up to 15 minutes. 
+9. Wait for the virtual environment to be created. This may take up to 15 minutes or longer. 
 
 
 ### Installing Node Modules
@@ -97,7 +97,7 @@ VITE_API=http://localhost:3000
 
 ### Running the Web Application:
 1. In the backend directory
-2. On terminal type 'npm start'
+2. On terminal type '.\.venv\Scripts\activate' and then 'npm start'
 3. Open new terminal and move to frontend directory
 4. type 'npm run dev'
 5. Open the web application on browser provided in the frontend

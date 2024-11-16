@@ -80,9 +80,9 @@ function Register() {
       <div style={{ margin: 0 }}>
         <div id="loader"></div>
 
-        <div style={{ display: "none" }} id="myDiv" className="animate-bottom">
+        <div style={{ display: "none" }} id="myDiv" className="animate-bottom minHeight75vh d-flex align-items-center justify-content-center">
           <div className="row">
-            <div className="login-box">
+            <div className="login-box card-color p-4" style={{borderRadius: "10px"}}>
               <h1>Sign Up</h1>
               <form onSubmit={handleSubmit}>
                 <div className="textbox">

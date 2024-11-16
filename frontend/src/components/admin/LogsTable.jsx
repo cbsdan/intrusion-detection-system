@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getToken } from "../../utils/helper";
 import "react-toastify/dist/ReactToastify.css";
 import SideBar from "./SideBar";
+import Loader from "../layout/Loader";
 
 const LogsTable = () => {
   const [rows, setRows] = useState([]);
@@ -22,13 +23,16 @@ const LogsTable = () => {
     { field: "service", headerName: "Services", flex: 0.5 },
     { field: "flag", headerName: "Flag", flex: 0.5 },
     { field: "knn_result", headerName: "KNN Result", flex: 1 },
-    { field: "rf_result", headerName: "Rain Forest Result", flex: 1 },
+    { field: "rf_result", headerName: "RF Result", flex: 1 },
+    { field: "cnn_result", headerName: "CNN Result", flex: 1 },
+    { field: "lstm_result", headerName: "LSTM Result", flex: 1 },
     { field: "user", headerName: "User (Email)", flex: 1 },
     { field: "createdAt", headerName: "Date Created", flex: 1 },
   ];
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const headers = {
           Authorization: `Bearer ${getToken()}`,
@@ -85,6 +89,30 @@ const LogsTable = () => {
                       .result
                   : "N/A"
               }`,
+            cnn_result: `${
+              item.binaryClassResult.find((bin) => bin.modelUsed === "cnn")
+                ? item.binaryClassResult.find((bin) => bin.modelUsed === "cnn")
+                    .result
+                : "N/A"
+            },
+              ${
+                item.multiClassResult.find((mul) => mul.modelUsed === "cnn")
+                  ? item.multiClassResult.find((mul) => mul.modelUsed === "cnn")
+                      .result
+                  : "N/A"
+              }`,
+            lstm_result: `${
+              item.binaryClassResult.find((bin) => bin.modelUsed === "lstm")
+                ? item.binaryClassResult.find((bin) => bin.modelUsed === "lstm")
+                    .result
+                : "N/A"
+            },
+              ${
+                item.multiClassResult.find((mul) => mul.modelUsed === "lstm")
+                  ? item.multiClassResult.find((mul) => mul.modelUsed === "lstm")
+                      .result
+                  : "N/A"
+              }`,
             user: item.networkTraffic.user
               ? item.networkTraffic.user.email
               : "N/A",
@@ -134,44 +162,49 @@ const LogsTable = () => {
   return (
     <>
       <SideBar isExpanded={isSidebarExpanded} onToggle={handleSidebarToggle} />
-      <div
-        className="table-container d-inline-flex flex-column "
-        style={{
-          maxHeight: "100vh",
-          width: "90%",
-          overflow: "auto !important",
-          marginLeft: isSidebarExpanded ? "260px" : "100px",          
-          margin: "30px 30px 30px 100px",
-          transition: "margin-left 0.3s ease",
-          width: isSidebarExpanded ? "calc(100% - 320px)" : "calc(100% - 130px)",
-        }}
-      >
-        <h3 className="table-title">Network Traffic Logs</h3>
-        
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={handleSearch}
-          style={{
-            marginBottom: "20px",
-            padding: "8px",
-            width: "300px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
-        />
-        
-        <DataGrid
-          rows={filteredRows}  
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          loading={loading}
-          style={{ overflow: "auto !important" }}
-        />
-      </div>
+      {
+        loading ? (
+          <Loader message="Loading"/>
+        ) : (
+          <div
+            className="table-container d-inline-flex flex-column "
+            style={{
+              maxHeight: "100vh",
+              overflow: "auto !important",
+              marginLeft: isSidebarExpanded ? "260px" : "100px",          
+              margin: "30px 30px 30px 100px",
+              transition: "margin-left 0.3s ease",
+              width: isSidebarExpanded ? "calc(100% - 320px)" : "calc(100% - 130px)",
+            }}
+          >
+            <h3 className="table-title">Network Traffic Logs</h3>
+            
+            {/* Search Input */}
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+              style={{
+                marginBottom: "20px",
+                padding: "8px",
+                width: "300px",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+              }}
+            />
+            
+            <DataGrid
+              rows={filteredRows}  
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              loading={loading}
+              style={{ overflow: "auto !important" }}
+            />
+          </div>
+        )
+      }
     </>
   );
 };

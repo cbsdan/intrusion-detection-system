@@ -90,7 +90,7 @@ exports.loginUser = async (req, res, next) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find()
+        const users = await User.find().sort({ createdAt: -1 })
 
         if (!users) {
             return res.status(400).json({message: "no users found"})
@@ -107,7 +107,7 @@ exports.getAllUsers = async (req, res) => {
 }
 
 exports.getUserDetails = async (req, res, next) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).sort({ createdAt: -1 });
     if (!user) {
         return res.status(400).json({ message: `User does not found with id: ${req.params.id}` })  
     }
@@ -179,6 +179,22 @@ exports.updateUserPassword = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Server error'
+        });
+    }
+};
+
+exports.countAllUsers = async (req, res) => {
+    try {
+        const userCount = await User.countDocuments();
+        return res.status(200).json({
+            success: true,
+            count: userCount
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
         });
     }
 };

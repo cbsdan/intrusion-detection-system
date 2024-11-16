@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { getUser } from "../utils/helper";
 import { Link } from "react-router-dom";
 
@@ -11,39 +11,43 @@ function App() {
 
   return (
     <div>
-      <section className="colored-section minHeight50vh" id="title">
+      <section className="colored-section minFullHeightMinusNavHeight d-flex align-items-center justify-content-center flex-column pb-5" id="title">
         <div className="container-fluid">
           {/* Title */}
           <div className="row">
-            <div className="col-12">
+            <div className="col-lg-6 d-none d-lg-flex align-items-center justify-content-center">
+              <img
+                src="./src/assets/images/home-img-2.png"
+                style={{maxHeight: "400px"}}
+                alt="img"
+                className="img-fluid"
+              />
+            </div>
+            <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
               <p className="fs-4">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Machine
-                learning (ML) for intrusion detection focuses on automating the
-                detection of malicious activities or security breaches in a
-                network or system. By leveraging algorithms, ML models can
-                analyze large volumes of network traffic, identify patterns, and
-                classify data as normal or potentially harmful. These models can
-                detect known attacks based on historical data and also identify
-                previously unseen or novel threats through anomaly detection.
-                The ability of ML to continuously learn from new data makes it a
-                powerful tool in adaptive security, enabling systems to evolve
-                and improve over time. Ultimately, ML-based intrusion detection
-                systems (IDS) enhance security by providing real-time detection
-                and minimizing human intervention.
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Our system
+                utilizes machine learning (ML) to automate the detection of
+                malicious activities and security breaches in networks. By
+                analyzing large volumes of network traffic, ML models can
+                identify patterns and classify data as normal or harmful. These
+                models can detect known attacks and identify new threats through
+                anomaly detection. The adaptive nature of ML allows our system
+                to continuously learn from new data, making it an effective tool
+                for evolving and improving network security.
               </p>
               {!user ? (
                 <>
-                  <div className="buttons row d-flex align-items-center justify-content-center flex-column flex-lg-row mt-5">
+                  <div className="buttons row d-flex align-items-center justify-content-center flex-lg-row mt-5">
                     <Link
                       to="/login"
-                      className="col-3 btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
+                      className=" btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
                     >
                       <i className="fa-solid fa-user"></i>
                       <span className="mx-2">Login</span>
                     </Link>
                     <Link
                       to="/register"
-                      className="col-3 btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
+                      className=" btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
                     >
                       <i className="fa-solid fa-user-plus"></i>
                       <span className="mx-2">Register</span>
@@ -55,7 +59,7 @@ function App() {
                   <div className="buttons row d-flex align-items-center justify-content-center flex-column flex-lg-row mt-5">
                     <Link
                       to="/predict"
-                      className="col-3 btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
+                      className="w-100 btn d-inline-flex mx-2 align-items-center justify-content-center px-2"
                     >
                       <i className="fa-solid fa-globe"></i>
                       <span className="mx-2">Predict Network Traffic</span>
@@ -69,7 +73,7 @@ function App() {
       </section>
 
       {/* Features */}
-      <section className="white-section" id="features">
+      <section className="white-section minHeight100vh d-flex align-items-center justify-content-center" id="features">
         <div className="container-fluid">
           <div className="row" style={{ color: "#393E46" }}>
             <div className="feature-box col-lg-4">
@@ -82,9 +86,10 @@ function App() {
             </div>
             <div className="feature-box col-lg-4">
               <i className="icon fa-solid fa-brain fa-4x"></i>
-              <h3 className="feature-title">Prevent System</h3>
+              <h3 className="feature-title">Admin Overview</h3>
               <p className="feature-desc">
-                Prevent System acts based on the threat detected
+                Admin capability includes monitoring of network traffics and
+                logs in the system
               </p>
             </div>
             <div className="feature-box col-lg-4">

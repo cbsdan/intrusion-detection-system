@@ -19,8 +19,8 @@ function About() {
       {/* Main content */}
       <div id="myDiv" className="animate-bottom" style={{ display: "none" }}>
         {/* About section */}
-        <div className="container-fluid">
-          <section className="about-section py-2">
+        <div className="container-fluid minFullHeightMinusNavHeight d-flex align-items-center justify-content">
+          <section className="about-section py-2 ">
             <h1>About Our System</h1>
             <hr />
             <h5 className="text-start" style={{textAlign:"start"}}>
@@ -65,22 +65,16 @@ function About() {
           <div className="row d-flex align-items-center justify-content-center" style={{ color: "#fff" }}>
             {/* Team Member 1 */}
             <div
-              className="card card-about text-center my-4"
-              style={{
-                width: "22rem",
-                margin: "0px 30px 30px 30px",
-                backgroundColor: "#71C9CE",
-              }}
+              className="card card-about text-center my-4 minFullHeightMinusNavHeight"
             >
               <img
-                className="card-img-top p-4"
-                src="./src/assets/images/default-profile.png"
+                className="p-4 dev-img"
+                src="./src/assets/images/cabasa.jpg"
                 alt="image"
               />
               <div className="card-body">
                 <h4 className="card-title">Daniel Cabasa</h4>
                 <h6 className="card-title">Machine Learning, Backend</h6>
-                <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a
                     href="https://github.com/cbsdan"
@@ -119,22 +113,16 @@ function About() {
             {/* Team Member 2 */}
             <div
               className="card card-about text-center my-4"
-              style={{
-                width: "22rem",
-                margin: "0px 30px 30px 30px",
-                backgroundColor: "#71C9CE",
-              }}
             >
               <img
                 className="card-img-top p-4"
-                src="./src/assets/images/default-profile.png"
+                src="./src/assets/images/esquivel.jpg"
                 alt="image"
               />
 
               <div className="card-body">
                 <h4 className="card-title">Cassley Esquivel</h4>
                 <h6 className="card-title">Frontend</h6>
-                <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a
                     href="https://github.com/"
@@ -173,22 +161,16 @@ function About() {
             {/* Team Member 3 */}
             <div
               className="card card-about text-center my-4"
-              style={{
-                width: "22rem",
-                margin: "0px 30px 30px 30px",
-                backgroundColor: "#71C9CE",
-              }}
             >
               <img
                 className="card-img-top p-4"
-                src="./src/assets/images/default-profile.png"
+                src="./src/assets/images/juls.jpg"
                 alt="image"
               />
 
               <div className="card-body">
                 <h4 className="card-title">Juliana Mae Ines</h4>
                 <h6 className="card-title">Frontend</h6>
-                <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a
                     href="https://github.com/"
@@ -227,22 +209,16 @@ function About() {
             {/* Team Member 4 */}
             <div
               className="card card-about text-center my-4"
-              style={{
-                width: "22rem",
-                margin: "0px 30px 30px 30px",
-                backgroundColor: "#71C9CE",
-              }}
             >
               <img
                 className="card-img-top p-4"
-                src="./src/assets/images/default-profile.png"
+                src="./src/assets/images/tan.jpg"
                 alt="image"
               />
 
               <div className="card-body">
                 <h4 className="card-title">Josh Ziemenn Tan</h4>
                 <h6 className="card-title">Backend</h6>
-                <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a
                     href="https://github.com/"
@@ -281,22 +257,16 @@ function About() {
             {/* Team Member 5 */}
             <div
               className="card card-about text-center my-4"
-              style={{
-                width: "22rem",
-                margin: "0px 30px 30px 30px",
-                backgroundColor: "#71C9CE",
-              }}
             >
               <img
                 className="card-img-top p-4"
-                src="./src/assets/images/default-profile.png"
+                src="./src/assets/images/obreros.jpg"
                 alt="image"
               />
 
               <div className="card-body">
                 <h4 className="card-title">Jhun Mark Obreros</h4>
                 <h6 className="card-title">Back End</h6>
-                <p className="card-text">Description</p>
                 <div className="container-fluid">
                   <a
                     href="https://github.com/link"

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LoadHead from "../layout/LoadHead";
 import LoadFoot from "../layout/LoadFoot";
-import { authenticate } from "../../utils/helper";
+import { authenticate, getUser } from "../../utils/helper";
 import axios from "axios"; 
 import { toast } from "react-toastify";
 import keyExist from '../../utils/keyExists'
@@ -10,10 +11,12 @@ function LoginPage() {
     email: "", // Changed from username to email to match the state
     password: "",
   });
-
+  
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  let navigate = useNavigate()
+  
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
@@ -34,6 +37,8 @@ function LoginPage() {
       const { data: response } = await axios.post(url, data, config);
       console.log(response);
       authenticate(response, () => (window.location = "/"));
+      const user = getUser()
+      toast.success(`Welcome Back ${user.firstName} ${user.lastName}`, {position: "bottom-right"})
       setLoading(false);
 
       console.log(response.message);
@@ -85,9 +90,9 @@ function LoginPage() {
       <body style={{ margin: 0 }}>
         <div id="loader"></div>
 
-        <div style={{ display: "none" }} id="myDiv" className="animate-bottom">
+        <div style={{ display: "none" }} id="myDiv" className="animate-bottom minHeight75vh d-flex align-items-center justify-content-center">
           <div className="row">
-            <div className="login-box">
+            <div className="login-box card-color p-4" style={{borderRadius: "10px"}}>
               <h1>Login</h1>
               <form onSubmit={handleSubmit}> {/* Removed action and method */}
                 <div className="textbox">
