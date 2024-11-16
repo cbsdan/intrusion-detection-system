@@ -183,7 +183,7 @@ const Parameters = () => {
             className="row w-75 card-color p-3"
             style={{ borderRadius: "10px" }}
           >
-            <div className="login-box w-100">
+            <div className="w-100">
               <h1>Network Traffic Parameters</h1>
               <form onSubmit={handleSubmit}>
                 <input
