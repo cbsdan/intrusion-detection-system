@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "./layout/Loader";
+import { toast } from "react-toastify";
 
 const Predict = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
@@ -42,7 +43,8 @@ const Predict = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-      setStatusMessage(`Error: ${error.response?.data || error.message}`);
+      toast.error(`Error ${error.response?.statusText || error.message}`, {position: "bottom-right"})
+      setStatusMessage(`Error: ${error.response?.statusText || error.message}`);
       setLoading(false);
     }
   };
@@ -64,6 +66,7 @@ const Predict = () => {
       navigate("/predict/param-secrets", { state: { data: dataToPass } });
       setLoading(false);
     } catch (error) {
+      toast.error(`Error ${error.response?.data || error.message}`, {position: "bottom-right"})
       console.error("Error fetching data:", error);
       setStatusMessage("Error fetching prediction data.");
       setLoading(false);

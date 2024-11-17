@@ -5,7 +5,7 @@ import LoadHead from "../layout/LoadHead";
 import LoadFoot from "../layout/LoadFoot";
 import { getToken, getUser } from "../../utils/helper";
 import Loader from "../layout/Loader";
-
+import { toast } from "react-toastify";
 const Parameters = () => {
   const [networkTraffic, setNetworkTraffic] = useState("");
   const [error, setError] = useState(false);
@@ -153,7 +153,8 @@ const Parameters = () => {
       setLoading(false);
       navigate("/predict/param-secrets", { state: { data: response } });
     } catch (error) {
-      setError(error);
+      toast.error(error.response?.statusText || error.message, {position: "bottom-right"})
+      setError(error.response?.statusText);
       console.log(error);
       setLoading(false);
     }

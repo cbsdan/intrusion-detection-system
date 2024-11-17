@@ -89,7 +89,7 @@ app.get("/secrets", async function (req, res) {
 
     cnn_bin_cls = "CNN Algorithm binary class:" + response[6].split(':')[1]?.trim(); 
     cnn_mul_cls = "CNN Algorithm Multi Class Type:" + response[7].split(':')[1]?.trim(); 
-    cnn_desc = "CNN Description" + response[8].split(':')[1]?.trim();
+    cnn_desc = "CNN Description:" + response[8].split(':')[1]?.trim();
 
     lstm_bin_cls = "LSTM Algorithm binary class:" + response[9].split(':')[1]?.trim(); 
     lstm_mul_cls = "LSTM Algorithm Multi Class Type:" + response[10].split(':')[1]?.trim();
@@ -262,7 +262,7 @@ final_ans = ""
 app.post('/uploadjavatpoint', async function (req, res) {
   upload(req, res, async function (err) {
     if (err) {
-      return res.status(500).end("Error uploading file.");
+      return res.status(500).json({message: "Internal Server Error"});
     }
 
     const submitted_model = req.body.selected_model;
@@ -290,17 +290,17 @@ app.post('/uploadjavatpoint', async function (req, res) {
         res.download(updated_csv_file_path, 'updated_file.csv', (err) => {
           if (err) {
             console.error("Error sending file:", err);
-            res.status(500).end("Error sending file.");
+            res.status(500).json({message: "Error sending file."});
           } else {
             console.log("File sent successfully.");
           }
         });
       } else {
-        res.status(404).end("Updated CSV file not found.");
+        res.status(404).json({message: "Updated CSV file not found."});
       }
     } catch (error) {
       console.error(error);
-      res.status(500).end("Error processing file.");
+      res.status(500).json({message: "Error processing file."});
     }
   });
 });
@@ -309,7 +309,8 @@ function runPythonScript(scriptPath, options) {
   return new Promise((resolve, reject) => {
     PythonShell.run(scriptPath, options, (err, response) => {
       if (err) {
-        return reject(err);
+        console.error('PythonShellError:', err);
+        return reject(new Error("Python script error: " + err.message));
       }
       resolve(response);
     });

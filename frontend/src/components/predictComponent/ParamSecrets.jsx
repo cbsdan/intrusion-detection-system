@@ -11,23 +11,26 @@ const ParamSecrets = () => {
   const capitalize = (str) => {
     return str
       .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => {
+        const cleanedWord = word.replace(/[^a-zA-Z0-9]/g, '');
+        return cleanedWord.charAt(0).toUpperCase() + cleanedWord.slice(1).toLowerCase();
+      })
       .join(" ");
   };
   
 
   const extractInfo = (data) => {
+    console.log(data)
     const extractBinaryClass = (bin_cls) => bin_cls.split(":")[1].trim();
     const extractMultiClass = (mul_cls) => mul_cls.split(":")[1].trim();
-    const extractMultiClassDesc = (description) =>
-      description.split(":")[1].trim();
+    const extractMultiClassDesc = (description) => description.split(":")[1].trim();
 
     const result = {};
 
     for (const model in data) {
       if (data.hasOwnProperty(model)) {
         result[model] = {
-          bin_cls: extractBinaryClass(data[model].bin_cls),
+          bin_cls: capitalize(extractBinaryClass(data[model].bin_cls)),
           mul_cls: capitalize(extractMultiClass(data[model].mul_cls)),
           description: extractMultiClassDesc(data[model].description),
         };
@@ -81,9 +84,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.knn.bin_cls == "Attack" ? (
-                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <i className="fa-solid fa-triangle-exclamation"></i>
                 ) : (
-                  <i class="fa-solid fa-shield"></i>
+                  <i className="fa-solid fa-shield"></i>
                 )}
                 <span className="px-2">{data.knn.bin_cls}</span>
               </h3>
@@ -96,9 +99,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.knn.mul_cls == "Normal" ? (
-                  <i class="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-check"></i>
                 ) : (
-                  <i class="fa-solid fa-flag-checkered"></i>
+                  <i className="fa-solid fa-flag-checkered"></i>
                 )}
                 <span className="px-2">{data.knn.mul_cls}</span>
               </h3>
@@ -157,9 +160,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.rf.bin_cls == "Attack" ? (
-                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <i className="fa-solid fa-triangle-exclamation"></i>
                 ) : (
-                  <i class="fa-solid fa-shield"></i>
+                  <i className="fa-solid fa-shield"></i>
                 )}
                 <span className="px-2">{data.rf.bin_cls}</span>
               </h3>
@@ -172,9 +175,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.rf.mul_cls == "Normal" ? (
-                  <i class="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-check"></i>
                 ) : (
-                  <i class="fa-solid fa-flag-checkered"></i>
+                  <i className="fa-solid fa-flag-checkered"></i>
                 )}
                 <span className="px-2">{data.rf.mul_cls}</span>
               </h3>
@@ -235,9 +238,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.cnn.bin_cls == "Attack" ? (
-                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <i className="fa-solid fa-triangle-exclamation"></i>
                 ) : (
-                  <i class="fa-solid fa-shield"></i>
+                  <i className="fa-solid fa-shield"></i>
                 )}
                 <span className="px-2">{data.cnn.bin_cls}</span>
               </h3>
@@ -250,9 +253,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.cnn.mul_cls == "Normal" ? (
-                  <i class="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-check"></i>
                 ) : (
-                  <i class="fa-solid fa-flag-checkered"></i>
+                  <i className="fa-solid fa-flag-checkered"></i>
                 )}
                 <span className="px-2">{data.cnn.mul_cls}</span>
               </h3>
@@ -313,9 +316,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.lstm.bin_cls == "Attack" ? (
-                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <i className="fa-solid fa-triangle-exclamation"></i>
                 ) : (
-                  <i class="fa-solid fa-shield"></i>
+                  <i className="fa-solid fa-shield"></i>
                 )}
                 <span className="px-2">{data.lstm.bin_cls}</span>
               </h3>
@@ -330,9 +333,9 @@ const ParamSecrets = () => {
                 }
               >
                 {data.lstm.mul_cls == "Normal" ? (
-                  <i class="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-check"></i>
                 ) : (
-                  <i class="fa-solid fa-flag-checkered"></i>
+                  <i className="fa-solid fa-flag-checkered"></i>
                 )}
                 <span className="px-2">{data.lstm.mul_cls}</span>
               </h3>
