@@ -226,7 +226,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_bin_table"
+              to="/rf_bin_table"
               role="button"
             >
               Binary-Class Classification Table
@@ -234,7 +234,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_table"
+              to="/rf_table"
               role="button"
             >
               Multi-Class Classification Table
@@ -304,7 +304,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_bin_table"
+              to="/cnn_bin_table"
               role="button"
             >
               Binary-Class Classification Table
@@ -312,7 +312,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_table"
+              to="/cnn_table"
               role="button"
             >
               Multi-Class Classification Table
@@ -384,7 +384,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_bin_table"
+              to="/lstm_bin_table"
               role="button"
             >
               Binary-Class Classification Table
@@ -392,7 +392,7 @@ const ParamSecrets = () => {
             <Link
               className="btn btn-success"
               style={{ textAlign: "center", backgroundColor: "#5bc0de" }}
-              to="/knn_table"
+              to="/lstm_table"
               role="button"
             >
               Multi-Class Classification Table
