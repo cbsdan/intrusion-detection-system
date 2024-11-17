@@ -18,6 +18,33 @@ const ParamSecrets = () => {
       .join(" ");
   };
   
+  const attackDescriptions = [
+    {
+      type: "Dos",
+      description: "A Denial-of-Service (DoS) attack is an attack meant to shut down a machine or network, making it inaccessible to its intended users. DoS attacks accomplish this by flooding the target with traffic, or sending it information that triggers a crash. In both instances, the DoS attack deprives legitimate users (i.e. employees, members, or account holders) of the service or resource they expected."
+    },
+    {
+      type: "Probe",
+      description: "Probing is another type of attack in which the intruder scans network devices to determine weakness in topology design or some opened ports and then use them in the future for illegal access to personal information."
+    },
+    {
+      type: "R2l",
+      description: "User to root attacks (U2R) is another type of attack where the intruder tries to access the network resources as a normal user, and after several attempts, the intruder becomes a full access user."
+    },
+    {
+      type: "U2r",
+      description: "User to root attacks (U2R) is another type of attack where the intruder tries to access the network resources as a normal user, and after several attempts, the intruder becomes a full access user."
+    },
+    {
+      type: "Normal",
+      description: "This Is Safe"
+    }
+  ];
+
+  const getDescription = (mulClsType) => {
+    const attack = attackDescriptions.find(item => item.type === mulClsType);
+    return attack ? attack.description : "Description not found";
+  };
 
   const extractInfo = (data) => {
     console.log(data)
@@ -109,7 +136,7 @@ const ParamSecrets = () => {
             <div className="card-text mt-2" style={{ textAlign: "left" }}>
               <h5>Description</h5>
               <p className="text-secondary">
-                &nbsp;&nbsp;&nbsp;&nbsp;{data.knn.description}
+                &nbsp;&nbsp;&nbsp;&nbsp;{getDescription(data.knn.mul_cls)}
               </p>
             </div>
             <p className="card-text mt-2 mb-1">
@@ -185,7 +212,7 @@ const ParamSecrets = () => {
             <div className="card-text mt-2" style={{ textAlign: "left" }}>
               <h5>Description</h5>
               <p className="text-secondary">
-                &nbsp;&nbsp;&nbsp;&nbsp;{data.rf.description}
+                &nbsp;&nbsp;&nbsp;&nbsp;{getDescription(data.rf.mul_cls)}
               </p>
             </div>
             <p className="card-text mt-2">
@@ -263,7 +290,7 @@ const ParamSecrets = () => {
             <div className="card-text mt-2" style={{ textAlign: "left" }}>
               <h5>Description</h5>
               <p className="text-secondary">
-                &nbsp;&nbsp;&nbsp;&nbsp;{data.cnn.description}
+                &nbsp;&nbsp;&nbsp;&nbsp;{getDescription(data.cnn.mul_cls)}
               </p>
             </div>
             <p className="card-text mt-2">
@@ -343,7 +370,7 @@ const ParamSecrets = () => {
             <div className="card-text mt-2" style={{ textAlign: "left" }}>
               <h5>Description</h5>
               <p className="text-secondary">
-                &nbsp;&nbsp;&nbsp;&nbsp;{data.lstm.description}
+                &nbsp;&nbsp;&nbsp;&nbsp;{getDescription(data.lstm.mul_cls)}
               </p>
             </div>
             <p className="card-text mt-2">

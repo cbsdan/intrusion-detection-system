@@ -36,7 +36,9 @@ const ChartsPage = () => {
   const [loading, setLoading] = useState(false);
   const [userCount, setUserCount] = useState(null);
   const [logCount, setLogCount] = useState(null);
-  const [binaryClassTypeDataCounts, setBinaryClassTypeDataCounts] = useState({})
+  const [binaryClassTypeDataCounts, setBinaryClassTypeDataCounts] = useState(
+    {}
+  );
 
   const [binaryClassTypeData, setBinaryClassTypeData] = useState({
     labels: [],
@@ -107,21 +109,38 @@ const ChartsPage = () => {
         Authorization: `Bearer ${getToken()}`,
       },
     };
+
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_API}/binary-class-type-counts`,
         config
       );
       console.log(data);
+
       if (!data || !data.counts) {
         throw new Error("Invalid data structure");
       }
+
       const { counts } = data;
-      setBinaryClassTypeDataCounts(counts)
+
+      // Check if the counts for knn.normal and knn.attack exist
+      if (
+        counts?.knn?.normal === undefined ||
+        counts?.knn?.attack === undefined
+      ) {
+        throw new Error("Incomplete data for knn values");
+      }
+
+      setBinaryClassTypeDataCounts(counts);
       console.log(counts);
 
       const labels = ["normal", "attack"];
       const values = [counts.knn.normal, counts.knn.attack];
+
+      // Check if values array is valid
+      if (values.some((value) => value === undefined || value === null)) {
+        throw new Error("Invalid or missing values for binary class type data");
+      }
 
       const binaryClassTypeData = {
         labels: labels,
@@ -138,13 +157,17 @@ const ChartsPage = () => {
           },
         ],
       };
+
       setLoading(false);
       return binaryClassTypeData;
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "An error occurred", {
-        position: "bottom-right",
-      });
+      toast.error(
+        error.response?.data?.message || error.message || "An error occurred",
+        {
+          position: "bottom-right",
+        }
+      );
       setLoading(false);
     }
   };
@@ -162,6 +185,7 @@ const ChartsPage = () => {
         config
       );
       console.log(data);
+
       if (!data || !data.counts) {
         throw new Error("Invalid data structure");
       }
@@ -169,11 +193,39 @@ const ChartsPage = () => {
       const { counts } = data;
       console.log(counts);
 
-      const labels = ['normal', "dos", "probe", "r2l", "u2r"];
-      const knnValues = [counts?.knn.normal, counts?.knn.attack.dos, counts?.knn.attack.probe, counts?.knn.attack.r2l, counts?.knn.attack.u2r];
-      const rfValues = [counts?.rf.normal, counts?.rf.attack.dos, counts?.rf.attack.probe, counts?.rf.attack.r2l, counts?.rf.attack.u2r];
-      const cnnValues = [counts?.cnn.normal, counts?.cnn.attack.dos, counts?.cnn.attack.probe, counts?.cnn.attack.r2l, counts?.cnn.attack.u2r];
-      const lstmValues = [counts?.lstm.normal, counts?.lstm.attack.dos, counts?.lstm.attack.probe, counts?.lstm.attack.r2l, counts?.lstm.attack.u2r];
+      const labels = ["normal", "dos", "probe", "r2l", "u2r"];
+      const knnValues = [
+        counts?.knn?.normal,
+        counts?.knn?.attack?.dos,
+        counts?.knn?.attack?.probe,
+        counts?.knn?.attack?.r2l,
+        counts?.knn?.attack?.u2r,
+      ];
+      const rfValues = [
+        counts?.rf?.normal,
+        counts?.rf?.attack?.dos,
+        counts?.rf?.attack?.probe,
+        counts?.rf?.attack?.r2l,
+        counts?.rf?.attack?.u2r,
+      ];
+      const cnnValues = [
+        counts?.cnn?.normal,
+        counts?.cnn?.attack?.dos,
+        counts?.cnn?.attack?.probe,
+        counts?.cnn?.attack?.r2l,
+        counts?.cnn?.attack?.u2r,
+      ];
+      const lstmValues = [
+        counts?.lstm?.normal,
+        counts?.lstm?.attack?.dos,
+        counts?.lstm?.attack?.probe,
+        counts?.lstm?.attack?.r2l,
+        counts?.lstm?.attack?.u2r,
+      ];
+
+      if (!knnValues || !rfValues || !cnnValues || !lstmValues) {
+        throw new Error("Incomplete data fetched");
+      }
 
       const knnMultiClassTypeData = {
         labels: labels,
@@ -199,6 +251,7 @@ const ChartsPage = () => {
           },
         ],
       };
+
       const rfMultiClassTypeData = {
         labels: labels,
         datasets: [
@@ -223,6 +276,7 @@ const ChartsPage = () => {
           },
         ],
       };
+
       const cnnMultiClassTypeData = {
         labels: labels,
         datasets: [
@@ -247,6 +301,7 @@ const ChartsPage = () => {
           },
         ],
       };
+
       const lstmMultiClassTypeData = {
         labels: labels,
         datasets: [
@@ -271,12 +326,18 @@ const ChartsPage = () => {
           },
         ],
       };
+
       setLoading(false);
 
-      return {knnMultiClassTypeData, rfMultiClassTypeData, cnnMultiClassTypeData, lstmMultiClassTypeData};
+      return {
+        knnMultiClassTypeData,
+        rfMultiClassTypeData,
+        cnnMultiClassTypeData,
+        lstmMultiClassTypeData,
+      };
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "An error occurred", {
+      toast.error(error.response?.data?.message || error.message || "An error occurred", {
         position: "bottom-right",
       });
       setLoading(false);
@@ -308,7 +369,12 @@ const ChartsPage = () => {
   };
 
   const fetchMultiClassTypeData = async () => {
-    const {knnMultiClassTypeData, rfMultiClassTypeData, cnnMultiClassTypeData, lstmMultiClassTypeData} = await getMultiClassTypeData();
+    const {
+      knnMultiClassTypeData,
+      rfMultiClassTypeData,
+      cnnMultiClassTypeData,
+      lstmMultiClassTypeData,
+    } = await getMultiClassTypeData();
     if (knnMultiClassTypeData) {
       setKnnMultiClassTypeData(knnMultiClassTypeData);
     }
@@ -414,7 +480,9 @@ const ChartsPage = () => {
             <Grid item xs={4} md={4} lg={4}>
               <Paper elevation={3} sx={{ padding: 2 }}>
                 <h4 className="text-dark">KNN Attacks Detected</h4>
-                <h2 className="text-danger fw-600">{binaryClassTypeDataCounts?.knn?.attack}</h2>
+                <h2 className="text-danger fw-600">
+                  {binaryClassTypeDataCounts?.knn?.attack || 0}
+                </h2>
                 <Link
                   to="/admin/logs"
                   className="text-dark d-flex align-items-center justify-content-center"
@@ -456,12 +524,14 @@ const ChartsPage = () => {
               </Paper>
             </Grid>
 
-            <h3 className="col-12 px-4 mt-5 text-start d-flex">Multi Class Type Data Values</h3>
+            <h3 className="col-12 px-4 mt-5 text-start d-flex">
+              Multi Class Type Data Values
+            </h3>
 
             <Grid item xs={12} md={4} lg={3}>
               <Paper elevation={3} sx={{ padding: 2 }}>
                 <Typography variant="h6" gutterBottom sx={{ color: "#000" }}>
-                  KNN 
+                  KNN
                 </Typography>
                 <Pie data={knnMultiClassTypeData} />
               </Paper>
@@ -477,7 +547,7 @@ const ChartsPage = () => {
             <Grid item xs={12} md={4} lg={3}>
               <Paper elevation={3} sx={{ padding: 2 }}>
                 <Typography variant="h6" gutterBottom sx={{ color: "#000" }}>
-                  CNN 
+                  CNN
                 </Typography>
                 <Pie data={cnnMultiClassTypeData} />
               </Paper>
@@ -485,7 +555,7 @@ const ChartsPage = () => {
             <Grid item xs={12} md={4} lg={3}>
               <Paper elevation={3} sx={{ padding: 2 }}>
                 <Typography variant="h6" gutterBottom sx={{ color: "#000" }}>
-                  LSTM 
+                  LSTM
                 </Typography>
                 <Pie data={lstmMultiClassTypeData} />
               </Paper>

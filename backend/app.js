@@ -78,7 +78,7 @@ app.get("/secrets", async function (req, res) {
         resolve(response);
       });
     });
-
+    console.log(response)
     knn_bin_cls = "KNN algorithm binary class:" + response[0].split(':')[1]?.trim(); 
     knn_mul_cls = "KNN Multi Class Type:" + response[1].split(':')[1]?.replace('[','').replace(']','').trim(); 
     knn_desc = "KNN Description:" + response[2].split(':')[1]?.trim(); 
@@ -207,6 +207,7 @@ app.post("/parameters", async function (req, res) {
     console.log("entered!!");
 
     p_complete_answer = stringify(response);
+    
     // KNN
     p_knn_bin_cls = stringify(response[0]).slice(2, -2);
     p_knn_mul_cls = stringify(response[1]).slice(2, -2);

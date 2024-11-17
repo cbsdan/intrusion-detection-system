@@ -264,6 +264,7 @@ elif(l[2]==1):
 elif(l[3]==1):
    print('LSTM Algorithm Multi class Type:R2L')
    print('LSTM Multi Class Type : R2L')
+   print('LSTM Description : User to root attacks (U2R) is an another type of attack where the intruder tries to access the network resources as a normal user,  and after several attempts, the intruder becomes as a full access user.')
 
 elif(l[4]==1):
    print('LSTM Algorithm Multi class Type:U2R')
